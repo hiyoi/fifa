@@ -169,5 +169,11 @@ iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
 
 最后测试ps4网络，下载速度为 1Mb/s(服务器的带宽),则代理成功
 
-游戏中稳定4格，偶尔还会出现5格情况。以上防火墙规则适用使用iptables的路由器,因为转发udp流量需要tproxy模块,像梅林固件这些系统有待测试
+测试游戏DR模式,openwrt中监控可以看到已经连上港服
+![9](https://github.com/hiyoi/fifa/blob/master/screenshot/9.png)
+
+游戏中稳定4格，偶尔还会出现5格情况。
+![10](https://github.com/hiyoi/fifa/blob/master/screenshot/10.jpg)
+
+以上防火墙规则适用使用iptables的路由器,因为转发udp流量需要tproxy模块,像梅林固件这些系统有待测试
 
