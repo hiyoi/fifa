@@ -177,3 +177,8 @@ iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
 
 以上防火墙规则适用使用iptables的路由器,因为转发udp流量需要tproxy模块,像梅林固件这些系统有待测试
 
+
+
+### 参考
+![ssr-redir是否支持-u启动udp的代理](https://github.com/bettermanbao/openwrt-shadowsocksR-libev-full/issues/33)
+
