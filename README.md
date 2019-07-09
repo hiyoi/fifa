@@ -60,6 +60,10 @@ ss-server -c ssu.json -a nobody -U -f ssu.pid
 到此服务器的$$就配置好了
 
 ### 路由器篇(客户端)
+
+手头上只有一台树莓派,刷了openwrt后,某宝购入一个usb网卡用来做路由
+![1](https://github.com/hiyoi/fifa/blob/master/screenshot/1.png)
+
 openwrt中要实现udp转发,要用iptables的tproxy模块,需要手动安装一些包
 ```
 opkg update
@@ -69,11 +73,15 @@ opkg install iptables-mod-tproxy kmod-ipt-tproxy ip
 设置好路由器的wan和lan,这里wan使用上级路由的网段`192.168.50.161`,lan使用`192.168.110.1`
 
 安装$$-redir,openwrt比较简单,只需在Luci web控制界面中的 software中搜索`shadowsocks-libev`,安装下面几个包:
-
+![2](https://github.com/hiyoi/fifa/blob/master/screenshot/2.png)
 之后配置运行$$-redir
-
+![3](https://github.com/hiyoi/fifa/blob/master/screenshot/3.png)
+![4](https://github.com/hiyoi/fifa/blob/master/screenshot/4.png)
 ### 防火墙篇(重点)
-最后要配置 iptables来实现$$的透明代理和udp转发，配置如下
+
+最后要配置 iptables来实现$$的透明代理和udp转发，以及锁定中亚服务器, 配置如下(将xxx.xxx.xxx.xxx换成你的aliyun服务器ip地址)
+![5](https://github.com/hiyoi/fifa/blob/master/screenshot/5.png)
+
 ```
 # This file is interpreted as shell script.
 # Put your custom iptables rules here, they will
@@ -155,7 +163,11 @@ iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
 
 
 配置完成后重启防火墙,将ps4接上路由器lan,然后手动配置网络
+![6](https://github.com/hiyoi/fifa/blob/master/screenshot/6.jpg)
+![7](https://github.com/hiyoi/fifa/blob/master/screenshot/7.jpg)
+![8](https://github.com/hiyoi/fifa/blob/master/screenshot/8.jpg)
 
+最后测试ps4网络，下载速度为 1Mb/s(服务器的带宽),则代理成功
 
-
+游戏中稳定4格，偶尔还会出现5格情况
 
