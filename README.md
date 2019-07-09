@@ -60,7 +60,7 @@ ss-server -c ssu.json -a nobody -U -f ssu.pid
 到此服务器的$$就配置好了
 
 ### 路由器篇(客户端)
-openwrt中要实现udp转发,需要手动安装一些ipk
+openwrt中要实现udp转发,要用iptables的tproxy模块,需要手动安装一些包
 ```
 opkg update
 opkg install iptables-mod-tproxy kmod-ipt-tproxy ip
@@ -68,6 +68,94 @@ opkg install iptables-mod-tproxy kmod-ipt-tproxy ip
 
 设置好路由器的wan和lan,这里wan使用上级路由的网段`192.168.50.161`,lan使用`192.168.110.1`
 
-安装$$-redir,openwrt比较简单,只需在Luci web控制界面中的 software中搜索`shadowsocks-libev`,安装下面几个:
+安装$$-redir,openwrt比较简单,只需在Luci web控制界面中的 software中搜索`shadowsocks-libev`,安装下面几个包:
+
+之后配置运行$$-redir
+
+### 防火墙篇(重点)
+最后要配置 iptables来实现$$的透明代理和udp转发，配置如下
+```
+# This file is interpreted as shell script.
+# Put your custom iptables rules here, they will
+# be executed with each firewall (re-)start.
+
+# Internal uci firewall chains are flushed and recreated on reload, so
+# put custom rules into the root chains e.g. INPUT or FORWARD or into the
+# special user chains, e.g. input_wan_rule or postrouting_lan_rule.
+
+# Create new chain
+iptables -t nat -N sstcp
+iptables -t mangle -N ssudp
+
+# Ignore your shadowsocks server's addresses
+# It's very IMPORTANT, just be careful.
+iptables -t nat -A sstcp -d xxx.xxx.xxx.xxx -j RETURN
+
+# Ignore LANs and any other addresses you'd like to bypass the proxy
+# See Wikipedia and RFC5735 for full list of reserved networks.
+# See ashi009/bestroutetb for a highly optimized CHN route list.
+iptables -t nat -A sstcp -d 0.0.0.0/8 -j RETURN
+iptables -t nat -A sstcp -d 10.0.0.0/8 -j RETURN
+iptables -t nat -A sstcp -d 127.0.0.0/8 -j RETURN
+iptables -t nat -A sstcp -d 169.254.0.0/16 -j RETURN
+iptables -t nat -A sstcp -d 172.16.0.0/12 -j RETURN
+iptables -t nat -A sstcp -d 192.168.0.0/16 -j RETURN
+iptables -t nat -A sstcp -d 224.0.0.0/4 -j RETURN
+iptables -t nat -A sstcp -d 240.0.0.0/4 -j RETURN
+
+# Anything else should be redirected to shadowsocks's local port
+iptables -t nat -A sstcp -p tcp -j REDIRECT --to-ports 1080
+
+# Add any UDP rules
+ip rule add fwmark 0x01/0x01 table 100
+ip route add local 0.0.0.0/0 dev lo table 100
+
+iptables -t mangle -A ssudp -d xxx.xxx.xxx.xxx -j RETURN
+iptables -t mangle -A ssudp -d 0.0.0.0/8 -j RETURN
+iptables -t mangle -A ssudp -d 10.0.0.0/8 -j RETURN
+iptables -t mangle -A ssudp -d 127.0.0.0/8 -j RETURN
+iptables -t mangle -A ssudp -d 169.254.0.0/16 -j RETURN
+iptables -t mangle -A ssudp -d 172.16.0.0/12 -j RETURN
+iptables -t mangle -A ssudp -d 192.168.0.0/16 -j RETURN
+iptables -t mangle -A ssudp -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A ssudp -d 240.0.0.0/4 -j RETURN
+iptables -t mangle -A ssudp -d 109.200.215.132/32 -j DROP
+iptables -t mangle -A ssudp -d 109.200.215.140/32 -j DROP
+iptables -t mangle -A ssudp -d 109.200.221.170/31 -j DROP
+iptables -t mangle -A ssudp -d 159.153.165.200/31 -j DROP
+iptables -t mangle -A ssudp -d 159.153.28.50/31 -j DROP
+iptables -t mangle -A ssudp -d 159.153.36.60/30 -j DROP
+iptables -t mangle -A ssudp -d 159.153.42.240/31 -j DROP
+iptables -t mangle -A ssudp -d 169.38.100.162/32 -j DROP
+iptables -t mangle -A ssudp -d 169.38.100.170/32 -j DROP
+iptables -t mangle -A ssudp -d 169.57.76.162/32 -j DROP
+iptables -t mangle -A ssudp -d 169.57.76.171/32 -j DROP
+iptables -t mangle -A ssudp -d 18.184.251.35/32 -j DROP
+iptables -t mangle -A ssudp -d 18.196.167.42/32 -j DROP
+iptables -t mangle -A ssudp -d 18.197.48.114/32 -j DROP
+iptables -t mangle -A ssudp -d 18.202.247.216/32 -j DROP
+iptables -t mangle -A ssudp -d 185.179.200.211/32 -j DROP
+iptables -t mangle -A ssudp -d 185.179.200.226/32 -j DROP
+iptables -t mangle -A ssudp -d 185.179.203.68/32 -j DROP
+iptables -t mangle -A ssudp -d 185.179.203.80/32 -j DROP
+iptables -t mangle -A ssudp -d 185.50.104.206/32 -j DROP
+iptables -t mangle -A ssudp -d 185.50.104.221/32 -j DROP
+iptables -t mangle -A ssudp -d 203.195.120.68/32 -j DROP
+iptables -t mangle -A ssudp -d 203.195.122.124/32 -j DROP
+iptables -t mangle -A ssudp -d 52.58.40.163/32 -j DROP
+
+iptables -t mangle -A ssudp -p udp  -j TPROXY --on-port 1080 --tproxy-mark 0x01/0x01
+
+# Apply the rules
+iptables -t nat -A PREROUTING -s 192.168.110.0/25 -p tcp -j sstcp
+iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
+```
+
+注意上面最后两条规则,把子网掩码设置为25位,这样只转发192.168.110.1~192.168.110.126的设备,后面我们的ps4手动设置到这个范围内就能使用加速,设置大于这个网段则不使用。
+
+
+配置完成后重启防火墙,将ps4接上路由器lan,然后手动配置网络
+
+
 
 
