@@ -180,6 +180,7 @@ iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
 
 
 ### 参考
+* [用树莓派做路由器，搭建透明代理，加速游戏主机的网络](https://github.com/wangyu-/UDPspeeder/wiki/%E7%94%A8%E6%A0%91%E8%8E%93%E6%B4%BE%E5%81%9A%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%8C%E6%90%AD%E5%BB%BA%E9%80%8F%E6%98%8E%E4%BB%A3%E7%90%86%EF%BC%8C%E5%8A%A0%E9%80%9F%E6%B8%B8%E6%88%8F%E4%B8%BB%E6%9C%BA%E7%9A%84%E7%BD%91%E7%BB%9C)
 * [用openwrt路由器搭建透明代理，加速局域网内所有设备](https://github.com/wangyu-/tinyfecVPN/wiki/%E7%94%A8openwrt%E8%B7%AF%E7%94%B1%E5%99%A8%E6%90%AD%E5%BB%BA%E9%80%8F%E6%98%8E%E4%BB%A3%E7%90%86%EF%BC%8C%E5%8A%A0%E9%80%9F%E5%B1%80%E5%9F%9F%E7%BD%91%E5%86%85%E6%89%80%E6%9C%89%E8%AE%BE%E5%A4%87)
 * [ssr-redir是否支持-u启动udp的代理](https://github.com/bettermanbao/openwrt-shadowsocksR-libev-full/issues/33)
 
