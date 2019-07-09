@@ -1,5 +1,5 @@
 # fifa19 $$加速游戏
-这个方案比较适合需要中转路线连港服的地区
+这个方案比较适合需要中转路线连港服的地区,服务器是自己搭的，相当于专线加速
 ### 准备工作
 * [一台openwrt路由器](https://openwrt.org/)
 * [aliyun深圳服务器,这边使用的是366块一年的那款](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=e8zawwrp)
@@ -58,3 +58,16 @@ ss-server -c ssu.json -a nobody -U -f ssu.pid
 用`ps aux|grep ss-server` 查看是否成功运行,否则检查前面哪里出问题
 
 到此服务器的$$就配置好了
+
+### 路由器篇(客户端)
+openwrt中要实现udp转发,需要手动安装一些ipk
+```
+opkg update
+opkg install iptables-mod-tproxy kmod-ipt-tproxy ip
+```
+
+设置好路由器的wan和lan,这里wan使用上级路由的网段`192.168.50.161`,lan使用`192.168.110.1`
+
+安装$$-redir,openwrt比较简单,只需在Luci web控制界面中的 software中搜索`shadowsocks-libev`,安装下面几个:
+
+
