@@ -1,5 +1,7 @@
 # fifa19 $$加速游戏
-交流群: 828217883
+交流群:
+
+<img src="https://github.com/hiyoi/fifa/blob/master/screenshot/qrcode.jpg" width="20%" height="20%">
 
 这个方案比较适合需要中转路线连港服的地区,服务器是自己搭的，相当于专线加速
 ### 准备工作
