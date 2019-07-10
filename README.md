@@ -187,4 +187,12 @@ iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
 * [ssr-redir是否支持-u启动udp的代理](https://github.com/bettermanbao/openwrt-shadowsocksR-libev-full/issues/33)
 
 
+### 测试相关
+
+1M带宽可能会是瓶颈,踢球有种带铅球的感觉。
+
+测试把带宽临时提到5M,踢球时丝般顺滑,也无需再开udp2raw
+
+
+
 
