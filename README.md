@@ -85,14 +85,6 @@ opkg install iptables-mod-tproxy kmod-ipt-tproxy ip
 ![5](https://github.com/hiyoi/fifa/blob/master/screenshot/5.png)
 
 ```
-# This file is interpreted as shell script.
-# Put your custom iptables rules here, they will
-# be executed with each firewall (re-)start.
-
-# Internal uci firewall chains are flushed and recreated on reload, so
-# put custom rules into the root chains e.g. INPUT or FORWARD or into the
-# special user chains, e.g. input_wan_rule or postrouting_lan_rule.
-
 # Create new chain
 iptables -t nat -N sstcp
 iptables -t mangle -N ssudp
