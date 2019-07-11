@@ -87,17 +87,24 @@ opkg install iptables-mod-tproxy kmod-ipt-tproxy ip
 ![5](https://github.com/hiyoi/fifa/blob/master/screenshot/5.png)
 
 ```
+# clear iptables first
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
 # Create new chain
 iptables -t nat -N sstcp
 iptables -t mangle -N ssudp
 
-# Ignore your shadowsocks server's addresses
-# It's very IMPORTANT, just be careful.
+# 这里xxx填你自己的ss地址
 iptables -t nat -A sstcp -d xxx.xxx.xxx.xxx -j RETURN
 
-# Ignore LANs and any other addresses you'd like to bypass the proxy
-# See Wikipedia and RFC5735 for full list of reserved networks.
-# See ashi009/bestroutetb for a highly optimized CHN route list.
 iptables -t nat -A sstcp -d 0.0.0.0/8 -j RETURN
 iptables -t nat -A sstcp -d 10.0.0.0/8 -j RETURN
 iptables -t nat -A sstcp -d 127.0.0.0/8 -j RETURN
@@ -107,14 +114,15 @@ iptables -t nat -A sstcp -d 192.168.0.0/16 -j RETURN
 iptables -t nat -A sstcp -d 224.0.0.0/4 -j RETURN
 iptables -t nat -A sstcp -d 240.0.0.0/4 -j RETURN
 
-# Anything else should be redirected to shadowsocks's local port
+# 这里最后的1080 改成你的ss的local port
 iptables -t nat -A sstcp -p tcp -j REDIRECT --to-ports 1080
 
-# Add any UDP rules
 ip rule add fwmark 0x01/0x01 table 100
 ip route add local 0.0.0.0/0 dev lo table 100
 
+# 这里xxx填你自己的ss地址
 iptables -t mangle -A ssudp -d xxx.xxx.xxx.xxx -j RETURN
+
 iptables -t mangle -A ssudp -d 0.0.0.0/8 -j RETURN
 iptables -t mangle -A ssudp -d 10.0.0.0/8 -j RETURN
 iptables -t mangle -A ssudp -d 127.0.0.0/8 -j RETURN
@@ -148,9 +156,10 @@ iptables -t mangle -A ssudp -d 203.195.120.68/32 -j DROP
 iptables -t mangle -A ssudp -d 203.195.122.124/32 -j DROP
 iptables -t mangle -A ssudp -d 52.58.40.163/32 -j DROP
 
+#这里的1080同样改成ss的local port
 iptables -t mangle -A ssudp -p udp  -j TPROXY --on-port 1080 --tproxy-mark 0x01/0x01
 
-# Apply the rules
+# 这里的192.168.110.0/25网段改成你自己的路由器网段
 iptables -t nat -A PREROUTING -s 192.168.110.0/25 -p tcp -j sstcp
 iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
 ```
