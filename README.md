@@ -3,6 +3,8 @@
 
 <img src="https://github.com/hiyoi/fifa/blob/master/screenshot/qrcode.jpg" width="20%" height="20%">
 
+* 梅林路由器和其他能跑ss的路由器同样可以，群里有老哥测试成功了。
+
 这个方案比较适合需要中转路线连港服的地区,服务器是自己搭的，相当于专线加速
 ### 准备工作
 * [一台openwrt路由器](https://openwrt.org/)
@@ -195,7 +197,4 @@ iptables -t mangle -A PREROUTING -s  192.168.110.0/25 -j ssudp
 1M带宽可能会是瓶颈,踢球有种带铅球的感觉。
 
 测试把带宽临时提到5M,踢球时丝般顺滑,也无需再开udp2raw,因此推荐配置服务器时尽量用2M以上的带宽(虽然很贵)
-
-
-* 梅林路由器和其他能跑ss的路由器同样可以，群里有老哥测试成功了。
 
