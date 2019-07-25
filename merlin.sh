@@ -57,3 +57,11 @@ iptables -t mangle -A SSUDP -p udp  -j TPROXY --on-port 3333 --tproxy-mark 0x07 
 
 iptables -t nat -A PREROUTING -s 192.168.50.0/25 -p tcp -j SSTCP >/dev/null 2>&1
 iptables -t mangle -A PREROUTING -s  192.168.50.0/25 -j SSUDP >/dev/null 2>&1
+
+if [ $(iptables-save -t filter|grep easucks|wc -l) -gt 1 ]; then
+	echo "规则生效"
+	echo "强制转发ip为 192.168.50.2～192.168.50.126 设备的全局流量到ss"
+	echo "规则重启路由器后失效"
+else
+	echo "规则未生效"
+fi
