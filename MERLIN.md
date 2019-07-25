@@ -1,6 +1,6 @@
 # 梅林固件使用方法
 
-1. 确保安装了ss插件,并设置好节点后保存应用,然后确保开关状态为关
+1. 确保路由器的网段是192.168.50.0,并安装了ss插件,设置好节点后,确保开关状态为关,保存应用
 
 2. 路由器中执行命令`curl https://raw.githubusercontent.com/hiyoi/fifa/master/merlin.sh|sh`
 
