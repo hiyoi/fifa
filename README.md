@@ -3,7 +3,8 @@
 
 <img src="https://github.com/hiyoi/fifa/blob/master/screenshot/qrcode.jpg" width="20%" height="20%">
 
-* 梅林路由器和其他能跑ss的路由器同样可以，群里有老哥测试成功了。
+* 梅林路由器就比较简单，群里有老哥测试成功了。
+## [>>>>梅林固件教程<<<](https://github.com/hiyoi/fifa/blob/master/MERLIN.md)
 
 这个方案比较适合需要中转路线连港服的地区,服务器是自己搭的，相当于专线加速
 ### 准备工作
