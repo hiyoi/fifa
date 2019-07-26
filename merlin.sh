@@ -1,4 +1,9 @@
-source /koolshare/scripts/ss_base.sh
+source /koolshare/scripts/base.sh
+eval `dbus export ss`
+cur_node=$ssconf_basic_node
+value="\$ssconf_basic_server_"$cur_node
+tmp="export ss_basic_server=$value"
+eval $tmp
 
 killall ss-redir >/dev/null 2>&1
 ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_1.pid
