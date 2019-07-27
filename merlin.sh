@@ -4,6 +4,8 @@ cur_node=$ssconf_basic_node
 value="\$ssconf_basic_server_"$cur_node
 tmp="export ss_basic_server=$value"
 eval $tmp
+lan=$(ip route|egrep "dev br0|dev br-lan"|cut -d "/" -f1)                                            
+lan_ip=$lan"/25"
 
 killall ss-redir >/dev/null 2>&1
 ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_1.pid
@@ -60,12 +62,12 @@ iptables -t mangle -A SSUDP -d 52.58.40.163/32 -j DROP
 
 iptables -t mangle -A SSUDP -p udp  -j TPROXY --on-port 3333 --tproxy-mark 0x07 >/dev/null 2>&1
 
-iptables -t nat -A PREROUTING -s 192.168.50.0/25 -p tcp -j SSTCP >/dev/null 2>&1
-iptables -t mangle -A PREROUTING -s  192.168.50.0/25 -j SSUDP >/dev/null 2>&1
+iptables -t nat -A PREROUTING -s $lan_ip -p tcp -j SSTCP >/dev/null 2>&1
+iptables -t mangle -A PREROUTING -s $lan_ip -j SSUDP >/dev/null 2>&1
 
 if [ $(iptables-save -t nat|grep SSTCP|wc -l) -gt 1 ]; then
 	echo "succeed!"
-	echo "forward data from 192.168.50.2～192.168.50.126 to ss"
+	echo "forward data "$lan_ip" to ss"
 	echo "How to fix it? Just reboot your router!"
 else
 	echo "failed!"
