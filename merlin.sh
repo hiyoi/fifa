@@ -9,6 +9,7 @@ lan_ip=$lan"/25"
 
 killall ss-redir >/dev/null 2>&1
 ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_1.pid
+ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_2.pid
 
 iptables -t nat -N SSTCP
 iptables -t mangle -N SSUDP
