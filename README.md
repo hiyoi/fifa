@@ -23,11 +23,10 @@ Centos7的则需要自己编译安装,安装方法参考[官方文档](https://g
 
 安装完在控制台打一下`ss-server -h`命令确认安装成功
 #### 配置
-加速游戏需要同时使用tcp和udp,后面可能要用到udp2raw,所以配置的时候分开配置
 
 在命令行中,先切换至用户主目录`cd ~`
 
-新建一个加速tcp的配置文件`touch sst.json`
+新建一个配置文件`touch ss.json`
 配置如下:
 ```
 {
@@ -42,25 +41,11 @@ Centos7的则需要自己编译安装,安装方法参考[官方文档](https://g
 	"method":"chacha20-ietf-poly1305"
 }
 ```
-然后新建一个加速udp的配置文件 `touch ssu.json`
-配置如下:
-```
-{
-	"server":"0.0.0.0",
-	"server_port":16888,
-	"local_port":1080,
-	"password":"xxxxxx",
-	"timeout":60,
-	"fast_open": false,
-	"reuse_port": true,
-	"method":"chacha20-ietf-poly1305"
-}
-```
+
 #### 运行
-之后就可以运行$$了,两条命令
+之后就可以运行$$了
 ```
-ss-server -c sst.json -a nobody -f sst.pid
-ss-server -c ssu.json -a nobody -U -f ssu.pid
+ss-server -c ss.json -a nobody -u -f ss.pid
 ```
 用`ps aux|grep ss-server` 查看是否成功运行,否则检查前面哪里出问题
 
