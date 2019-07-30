@@ -67,6 +67,7 @@ ss-server -c ssu.json -a nobody -U -f ssu.pid
 到此服务器的$$就配置好了
 
 ### 路由器篇(客户端)
+## [>>>>梅林固件直接看这<<<](https://github.com/hiyoi/fifa/blob/master/MERLIN.md)
 
 手头上只有一台树莓派,刷了openwrt后,某宝购入一个usb网卡用来做路由
 ![1](https://github.com/hiyoi/fifa/blob/master/screenshot/1.png)
