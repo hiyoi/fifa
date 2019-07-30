@@ -10,3 +10,5 @@
 
 ps: 可以在路由器中设置dhcp的ip范围为192.168.50.127～192.168.50.254,这样自动获取ip的设备就不会走代理
 ![dhcp](https://github.com/hiyoi/fifa/blob/master/screenshot/dhcp.png)
+
+不支持SSR,需要用SSR的请自行修改 merlin.sh脚本文件
