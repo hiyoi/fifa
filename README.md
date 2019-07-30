@@ -11,7 +11,7 @@
 * [一台openwrt路由器](https://openwrt.org/)
 * [aliyun深圳服务器,这边使用的是366块一年的那款](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=e8zawwrp)
 
-### 服务器篇
+### 服务器篇(自己有ss节点就可以跳过这步)
 服务器上需要安装$$-libev
 
 如果是Debian8 或 Ubuntu16.10，直接两条命令安装
