@@ -2,14 +2,25 @@ source /koolshare/scripts/base.sh
 eval `dbus export ss`
 cur_node=$ssconf_basic_node
 value="\$ssconf_basic_server_"$cur_node
+type="\$ssconf_basic_type_"$cur_node
 tmp="export ss_basic_server=$value"
 eval $tmp
+tmp_type="export ss_basic_type=$type"
+eval $tmp_type
 lan=$(ip route|egrep "dev br0|dev br-lan"|cut -d "/" -f1)                                            
 lan_ip=$lan"/25"
 
-killall ss-redir >/dev/null 2>&1
-ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_1.pid
-ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_2.pid
+if [ "$ss_basic_type" == "0" ];then
+	killall ss-redir >/dev/null 2>&1
+	killall rss-redir >/dev/null 2>&1
+	ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_1.pid
+	ss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_2.pid
+elif [ "$ss_basic_type" == "1" ];then
+	killall ss-redir >/dev/null 2>&1
+	killall rss-redir >/dev/null 2>&1
+	rss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_1.pid
+	rss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_2.pid
+fi
 
 iptables -t nat -N SSTCP
 iptables -t mangle -N SSUDP
