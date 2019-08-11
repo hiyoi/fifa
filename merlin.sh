@@ -62,6 +62,7 @@ iptables -t mangle -A SSUDP -d 18.184.251.35/32 -j DROP
 iptables -t mangle -A SSUDP -d 18.196.167.42/32 -j DROP
 iptables -t mangle -A SSUDP -d 18.197.48.114/32 -j DROP
 iptables -t mangle -A SSUDP -d 18.202.247.216/32 -j DROP
+iptables -t mangle -A SSUDP -d 18.194.80.253/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.200.211/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.200.226/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.203.68/32 -j DROP
