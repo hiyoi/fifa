@@ -22,6 +22,16 @@ elif [ "$ss_basic_type" == "1" ];then
 	rss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_2.pid
 fi
 
+# clear rules before 
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+# start two Chain
 iptables -t nat -N SSTCP
 iptables -t mangle -N SSUDP
 
