@@ -1,7 +1,7 @@
 # fifa $$加速游戏
 交流群:
 
-<img src="https://github.com/hiyoi/fifa/blob/master/screenshot/qrcode.jpg" width="20%" height="20%">
+<img src="https://github.com/hiyoi/fifa/blob/master/screenshot/qrcode.png" width="20%" height="20%">
 
 ### 梅林固件
 
@@ -9,6 +9,8 @@
 ![merlin](https://github.com/hiyoi/fifa/blob/master/screenshot/merlin.png)
 
 2. 路由器中执行命令(可以使用shellinabox)`curl https://raw.githubusercontent.com/hiyoi/fifa/master/merlin.sh|sh`
+![shell](https://github.com/hiyoi/fifa/blob/master/screenshot/shell.png)
+
 
 3. ps4 ip地址手动设置到192.168.50.2～192.168.50.126(以路由器网段为准,截图中的路由器网段是192.168.110.0) 范围内的任意一个,然后测速，如果是ss的带宽那么就成功了
 
