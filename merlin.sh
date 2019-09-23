@@ -32,7 +32,7 @@ load_tproxy(){
 	
 	for MODULE in $MODULES; do
 		if ! checkmoduleisloaded; then
-			insmod /lib/modules/${OS}/kernel/net/netfilter/${MODULE}.ko
+			insmod /lib/modules/${OS}/kernel/net/netfilter/${MODULE}.ko >/dev/null 2>&1
 		fi
 	done
 	
