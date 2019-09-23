@@ -22,6 +22,36 @@ elif [ "$ss_basic_type" == "1" ];then
 	rss-redir -c /koolshare/ss/ss.json --reuse-port -f /var/run/ss_2.pid
 fi
 
+load_tproxy(){
+	MODULES="nf_tproxy_core xt_TPROXY xt_socket xt_comment"
+	OS=$(uname -r)
+	# load Kernel Modules
+	echo_date 加载TPROXY模块，用于udp转发...
+	checkmoduleisloaded(){
+		if lsmod | grep $MODULE &> /dev/null; then return 0; else return 1; fi;
+	}
+	
+	for MODULE in $MODULES; do
+		if ! checkmoduleisloaded; then
+			insmod /lib/modules/${OS}/kernel/net/netfilter/${MODULE}.ko
+		fi
+	done
+	
+	modules_loaded=0
+	
+	for MODULE in $MODULES; do
+		if checkmoduleisloaded; then
+			modules_loaded=$(( j++ )); 
+		fi
+	done
+	
+	if [ $modules_loaded -ne 3 ]; then
+		echo "One or more modules are missing, only $(( modules_loaded+1 )) are loaded. Can't start.";
+		close_in_five
+	fi
+}
+
+load_tproxy
 # clear rules before 
 iptables -t nat -F
 iptables -t nat -X
