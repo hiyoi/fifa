@@ -26,7 +26,6 @@ load_tproxy(){
 	MODULES="nf_tproxy_core xt_TPROXY xt_socket xt_comment"
 	OS=$(uname -r)
 	# load Kernel Modules
-	echo_date 加载TPROXY模块，用于udp转发...
 	checkmoduleisloaded(){
 		if lsmod | grep $MODULE &> /dev/null; then return 0; else return 1; fi;
 	}
