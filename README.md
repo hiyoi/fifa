@@ -69,7 +69,7 @@ EOF
 ```
 ss-server -c ss.json -a nobody -u -f ss.pid
 ```
-用`ps aux|grep ss-server` 查看是否成功运行,否则检查前面哪里出问题
+运行成功后不会有提示，用`ps aux|grep ss-server` 查看进程是否运行,否则检查前面哪里出问题
 
 到此服务器的$$就配置好了
 
