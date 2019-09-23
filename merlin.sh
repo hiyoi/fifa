@@ -44,11 +44,6 @@ load_tproxy(){
 			modules_loaded=$(( j++ )); 
 		fi
 	done
-	
-	if [ $modules_loaded -ne 3 ]; then
-		echo "One or more modules are missing, only $(( modules_loaded+1 )) are loaded. Can't start.";
-		close_in_five
-	fi
 }
 
 load_tproxy
