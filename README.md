@@ -44,9 +44,10 @@ Centos7的则需要自己编译安装,安装方法参考[官方文档](https://g
 
 在命令行中,先切换至用户主目录`cd ~`
 
-新建一个配置文件`touch ss.json`
-配置如下:
+新建一个配置文件`ss.json`
+命令如下:
 ```
+cat >ss.json<<EOF
 {
 	"server":"0.0.0.0",
 	"server_port":16888,
@@ -58,6 +59,7 @@ Centos7的则需要自己编译安装,安装方法参考[官方文档](https://g
 	"no_delay":true,
 	"method":"chacha20-ietf-poly1305"
 }
+EOF
 ```
 
 #### 运行
