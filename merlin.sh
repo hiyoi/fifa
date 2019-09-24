@@ -45,6 +45,20 @@ load_tproxy(){
 	done
 }
 
+get_wan0_cidr(){
+	local netmask=`nvram get wan0_netmask`
+	local x=${netmask##*255.}
+	set -- 0^^^128^192^224^240^248^252^254^ $(( (${#netmask} - ${#x})*2 )) ${x%%.*}
+	x=${1%%$3*}
+	suffix=$(( $2 + (${#x}/4) ))
+	prefix=`nvram get wan0_ipaddr`
+	if [ -n "$prefix" -a -n "$netmask" ];then
+		echo $prefix/$suffix
+	else
+		echo ""
+	fi
+}
+
 load_tproxy
 # clear rules before 
 iptables -t nat -F
@@ -58,29 +72,26 @@ iptables -P OUTPUT ACCEPT
 # start two Chain
 iptables -t nat -N SSTCP
 iptables -t mangle -N SSUDP
+ip_lan="0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4 223.5.5.5 223.6.6.6 114.114.114.114 114.114.115.115 1.2.4.8 210.2.4.8 117.50.11.11 117.50.22.22 180.76.76.76 119.29.29.29 $(get_wan0_cidr)"
 
 iptables -t nat -A SSTCP -d $ss_basic_server -j RETURN
-iptables -t nat -A SSTCP -d 0.0.0.0/8 -j RETURN
-iptables -t nat -A SSTCP -d 10.0.0.0/8 -j RETURN
-iptables -t nat -A SSTCP -d 127.0.0.0/8 -j RETURN
-iptables -t nat -A SSTCP -d 169.254.0.0/16 -j RETURN
-iptables -t nat -A SSTCP -d 172.16.0.0/12 -j RETURN
-iptables -t nat -A SSTCP -d 192.168.0.0/16 -j RETURN
-iptables -t nat -A SSTCP -d 224.0.0.0/4 -j RETURN
-iptables -t nat -A SSTCP -d 240.0.0.0/4 -j RETURN
+for ip in $ip_lan
+do
+	iptables -t nat -A SSTCP -d $ip -j RETURN
+done
+
 iptables -t nat -A SSTCP -p tcp -j REDIRECT --to-ports 3333
 ip rule add fwmark 0x07 table 310 >/dev/null 2>&1
 ip route add local 0.0.0.0/0 dev lo table 310 >/dev/null 2>&1
 
 iptables -t mangle -A SSUDP -d $ss_basic_server -j RETURN
-iptables -t mangle -A SSUDP -d 0.0.0.0/8 -j RETURN
-iptables -t mangle -A SSUDP -d 10.0.0.0/8 -j RETURN
-iptables -t mangle -A SSUDP -d 127.0.0.0/8 -j RETURN
-iptables -t mangle -A SSUDP -d 169.254.0.0/16 -j RETURN
-iptables -t mangle -A SSUDP -d 172.16.0.0/12 -j RETURN
-iptables -t mangle -A SSUDP -d 192.168.0.0/16 -j RETURN
-iptables -t mangle -A SSUDP -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A SSUDP -d 240.0.0.0/4 -j RETURN
+for ip in $ip_lan
+do
+	iptables -t mangle -A SSUDP -d $ip -j RETURN
+done
+
+
+#锁中亚
 iptables -t mangle -A SSUDP -d 109.200.215.132/32 -j DROP
 iptables -t mangle -A SSUDP -d 109.200.215.140/32 -j DROP
 iptables -t mangle -A SSUDP -d 109.200.221.170/31 -j DROP
