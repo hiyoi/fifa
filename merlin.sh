@@ -7,7 +7,7 @@ tmp="export ss_basic_server=$value"
 eval $tmp
 tmp_type="export ss_basic_type=$type"
 eval $tmp_type
-lan=$(ip route|egrep "dev br0|dev br-lan"|cut -d "/" -f1)                                            
+lan=$(nvram get lan_ipaddr)                                  
 lan_ip=$lan"/25"
 
 if [ "$ss_basic_type" == "0" ];then
@@ -61,9 +61,9 @@ get_wan0_cidr(){
 
 load_tproxy
 
-# start two Chain
 iptables -t nat -N SSTCP
 iptables -t mangle -N SSUDP
+# 白名单(不走ss)
 ip_lan="0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4 223.5.5.5 223.6.6.6 114.114.114.114 114.114.115.115 1.2.4.8 210.2.4.8 117.50.11.11 117.50.22.22 180.76.76.76 119.29.29.29 $(get_wan0_cidr)"
 
 iptables -t nat -A SSTCP -d $ss_basic_server -j RETURN
@@ -73,6 +73,7 @@ do
 done
 
 iptables -t nat -A SSTCP -p tcp -j REDIRECT --to-ports 3333
+
 ip rule add fwmark 0x07 table 310 >/dev/null 2>&1
 ip route add local 0.0.0.0/0 dev lo table 310 >/dev/null 2>&1
 
@@ -109,7 +110,6 @@ iptables -t mangle -A SSUDP -d 185.50.104.221/32 -j DROP
 iptables -t mangle -A SSUDP -d 203.195.120.68/32 -j DROP
 iptables -t mangle -A SSUDP -d 203.195.122.124/32 -j DROP
 iptables -t mangle -A SSUDP -d 52.58.40.163/32 -j DROP
-
 iptables -t mangle -A SSUDP -p udp  -j TPROXY --on-port 3333 --tproxy-mark 0x07 >/dev/null 2>&1
 
 iptables -t nat -A PREROUTING -s $lan_ip -p tcp -j SSTCP >/dev/null 2>&1
@@ -118,7 +118,7 @@ iptables -t mangle -A PREROUTING -s $lan_ip -j SSUDP >/dev/null 2>&1
 if [ $(iptables-save -t nat|grep SSTCP|wc -l) -gt 1 ]; then
 	echo "succeed!"
 	echo "forward data "$lan_ip" to ss"
-	echo "How to fix it? Just reboot your router!"
+	echo "How to fix it? use command \"curl https://raw.githubusercontent.com/hiyoi/fifa/master/clear.sh|sh\" or reboot your router!"
 else
 	echo "failed!"
 fi
