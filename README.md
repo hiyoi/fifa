@@ -5,7 +5,7 @@
 
 ### 梅林固件
 
-1. 确保路由器安装了ss插件,设置好节点后,开关一次,确保最后插件的状态是关的,保存应用
+1. 确保路由器安装了ss插件,设置好节点后,开关一次,确保最后插件的状态是关的,保存应用(这一步是为了确保ss的配置文件有生成,后面可以直接获取ss配置参数)
 ![merlin](https://github.com/hiyoi/fifa/blob/master/screenshot/merlin.png)
 
 2. 路由器中执行命令(可以使用shellinabox):
