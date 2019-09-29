@@ -85,31 +85,34 @@ done
 
 
 #锁中亚
-iptables -t mangle -A SSUDP -d 109.200.215.132/32 -j DROP
-iptables -t mangle -A SSUDP -d 109.200.215.140/32 -j DROP
-iptables -t mangle -A SSUDP -d 109.200.221.170/31 -j DROP
-iptables -t mangle -A SSUDP -d 159.153.165.200/31 -j DROP
-iptables -t mangle -A SSUDP -d 159.153.28.50/31 -j DROP
-iptables -t mangle -A SSUDP -d 159.153.36.60/30 -j DROP
-iptables -t mangle -A SSUDP -d 159.153.42.240/31 -j DROP
-iptables -t mangle -A SSUDP -d 169.38.100.162/32 -j DROP
-iptables -t mangle -A SSUDP -d 169.38.100.170/32 -j DROP
-iptables -t mangle -A SSUDP -d 169.57.76.162/32 -j DROP
-iptables -t mangle -A SSUDP -d 169.57.76.171/32 -j DROP
-iptables -t mangle -A SSUDP -d 18.184.251.35/32 -j DROP
+iptables -t mangle -A SSUDP -d 13.112.32.135/32 -j DROP
+iptables -t mangle -A SSUDP -d 13.211.52.40/32 -j DROP
+iptables -t mangle -A SSUDP -d 13.211.232.151/32 -j DROP
+iptables -t mangle -A SSUDP -d 13.230.248.238/32 -j DROP
+iptables -t mangle -A SSUDP -d 13.233.50.52/32 -j DROP
 iptables -t mangle -A SSUDP -d 18.196.167.42/32 -j DROP
 iptables -t mangle -A SSUDP -d 18.197.48.114/32 -j DROP
-iptables -t mangle -A SSUDP -d 18.202.247.216/32 -j DROP
-iptables -t mangle -A SSUDP -d 18.194.80.253/32 -j DROP
+iptables -t mangle -A SSUDP -d 18.206.67.50/32 -j DROP
+iptables -t mangle -A SSUDP -d 159.153.28.50/31 -j DROP
+iptables -t mangle -A SSUDP -d 169.57.76.162/32 -j DROP
+iptables -t mangle -A SSUDP -d 169.57.76.171/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.200.211/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.200.226/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.203.68/32 -j DROP
+iptables -t mangle -A SSUDP -d 18.202.247.216/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.203.80/32 -j DROP
-iptables -t mangle -A SSUDP -d 185.50.104.206/32 -j DROP
-iptables -t mangle -A SSUDP -d 185.50.104.221/32 -j DROP
-iptables -t mangle -A SSUDP -d 203.195.120.68/32 -j DROP
-iptables -t mangle -A SSUDP -d 203.195.122.124/32 -j DROP
-iptables -t mangle -A SSUDP -d 52.58.40.163/32 -j DROP
+iptables -t mangle -A SSUDP -d 34.246.50.222/32 -j DROP
+iptables -t mangle -A SSUDP -d 35.154.91.81/32 -j DROP
+iptables -t mangle -A SSUDP -d 35.180.144.2/32 -j DROP
+iptables -t mangle -A SSUDP -d 52.7.200.53/32 -j DROP
+iptables -t mangle -A SSUDP -d 52.47.70.141/32 -j DROP
+iptables -t mangle -A SSUDP -d 52.67.114.134/32 -j DROP
+iptables -t mangle -A SSUDP -d 52.74.103.186/32 -j DROP
+iptables -t mangle -A SSUDP -d 52.220.199.97/32 -j DROP
+iptables -t mangle -A SSUDP -d 52.208.122.154/32 -j DROP
+iptables -t mangle -A SSUDP -d 54.189.201.217/32 -j DROP
+iptables -t mangle -A SSUDP -d 54.190.223.192/32 -j DROP
+iptables -t mangle -A SSUDP -d 54.232.212.27/32 -j DROP
 iptables -t mangle -A SSUDP -p udp  -j TPROXY --on-port 3333 --tproxy-mark 0x07 >/dev/null 2>&1
 
 iptables -t nat -A PREROUTING -s $lan_ip -p tcp -j SSTCP >/dev/null 2>&1
