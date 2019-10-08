@@ -99,7 +99,6 @@ iptables -t mangle -A SSUDP -d 169.57.76.171/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.200.211/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.200.226/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.203.68/32 -j DROP
-iptables -t mangle -A SSUDP -d 18.202.247.216/32 -j DROP
 iptables -t mangle -A SSUDP -d 185.179.203.80/32 -j DROP
 iptables -t mangle -A SSUDP -d 34.246.50.222/32 -j DROP
 iptables -t mangle -A SSUDP -d 35.154.91.81/32 -j DROP
@@ -121,7 +120,7 @@ iptables -t mangle -A PREROUTING -s $lan_ip -j SSUDP >/dev/null 2>&1
 if [ $(iptables-save -t nat|grep SSTCP|wc -l) -gt 1 ]; then
 	echo "succeed!"
 	echo "forward data "$lan_ip" to ss"
-	echo "How to fix it? use command \"curl https://raw.githubusercontent.com/hiyoi/fifa/master/clear.sh|sh\" or reboot your router!"
+	echo "How to fix it? use command \"curl https://fifa.hiyoi.com/clear.sh|sh\" or reboot your router!"
 else
 	echo "failed!"
 fi
