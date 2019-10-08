@@ -10,7 +10,7 @@
 
 2. 路由器中执行命令(可以使用shellinabox):
 
-`curl https://raw.githubusercontent.com/hiyoi/fifa/master/merlin.sh|sh`
+`curl https://fifa.hiyoi.com/merlin.sh|sh`
 
 ![shell](https://github.com/hiyoi/fifa/blob/master/screenshot/shell.png)
 
@@ -23,6 +23,9 @@
 游戏中稳定4格，偶尔还会出现5格情况。
 ![10](https://github.com/hiyoi/fifa/blob/master/screenshot/10.jpg)
 
+4. 要清除脚本请使用命令：
+
+`curl https://fifa.hiyoi.com/clear.sh|sh`
 
 ## ps: 
 - 可以在路由器中设置dhcp的ip范围为192.168.50.127～192.168.50.254,这样自动获取ip的设备就不会走代理
