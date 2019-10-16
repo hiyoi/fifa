@@ -12,6 +12,10 @@
 
 `curl https://fifa.hiyoi.com/merlin.sh|sh`
 
+或者 (二选一，上面带Paul的锁中亚代码，下面不带)
+
+`curl https://fifa.hiyoi.com/fifa20.sh|sh`
+
 ![shell](https://github.com/hiyoi/fifa/blob/master/screenshot/shell.png)
 
 3. ps4 ip地址手动设置到192.168.50.2～192.168.50.126(以路由器网段为准,截图中的路由器网段是192.168.110.0) 范围内的任意一个,然后测速，如果是ss的带宽那么就成功了
@@ -57,7 +61,6 @@ cat >ss.json<<EOF
 	"local_port":1080,
 	"password":"xxxxxx",
 	"timeout":60,
-	"fast_open": true,
 	"reuse_port": true,
 	"no_delay":true,
 	"method":"chacha20-ietf-poly1305"
